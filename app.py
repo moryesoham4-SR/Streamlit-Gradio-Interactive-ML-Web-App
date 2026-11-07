@@ -249,21 +249,23 @@ if predict_btn:
         predicted_class = model.predict(row)[0]
 
         st.subheader("Prediction Results")
-        res_col1, res_col2, res_col3 = st.columns([1, 1, 2])
+        res_col1, res_col2, res_col3 = st.columns([1.2, 1.2, 1.6])
 
         with res_col1:
             st.metric(
                 label="Estimated Risk of Heart Disease",
                 value=f"{disease_probability:.1%}",
-                delta=f"Risk Level: {'Elevated' if disease_probability >= 0.5 else 'Low'}",
+                delta=f"Risk: {'Elevated' if disease_probability >= 0.5 else 'Low'}",
                 delta_color="inverse" if disease_probability >= 0.5 else "normal"
             )
 
         with res_col2:
-            verdict = "High Risk Detected" if predicted_class == 1 else "Normal / Low Risk"
+            verdict = "High Risk" if predicted_class == 1 else "Low Risk"
             st.metric(
                 label="Model Classification",
-                value=verdict
+                value=verdict,
+                delta="Positive Detection" if predicted_class == 1 else "Negative Detection",
+                delta_color="inverse" if predicted_class == 1 else "normal"
             )
 
         with res_col3:
